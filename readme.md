@@ -341,4 +341,13 @@ app.post("/login", async (req, res) => {
 });
 ```
 
+Sampai pada tahap ini, endpoint `POST /login` sudah berhasil dibuat, dan ini artinya kita juga sudah berhasil untuk membuat JWT pada aplikasi berbasis express !
+
+Namun pada tahap ini kita hanya sampai membuat-nya saja yah !
+
+Kita belum menggunakan / mengkonsumsi JWT yang dibuat untuk transfer data / memproteksi endpoint yang ada, nanti akan dipelajari pada pembelajaran selanjutnya yah 😉
+
+Pembelajaran selanjutnya dapat dilihat pada tautan berikut:
+- https://github.com/withered-flowers/education-express-jwt-authn-authz
+
 ## Referensi
