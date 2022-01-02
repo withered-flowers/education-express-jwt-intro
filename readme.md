@@ -11,10 +11,94 @@
 - Mengerti penggunaan REST API
 
 ## Intro
+Pada aplikasi monolitik, seluruh client dan server ada di tempat yang sama, sehingga untuk melakukan login, memeriksa apakah data ada atau tidak, endpointnya boleh dibuka oleh siapa saja, itu semuanya ada di server, dan berbasis stateful, dengan proteksi yang bernama `session`.
+
+![stateful](assets/stateful.png)
+
+Pada pembelajaran kali ini, dengan sudah mengetahui REST API itu apa, kita ingin mem-bagi proteksi nya pada server dan client, yang berbasis stateless, bernama JSON Web Token atau disingkat menjadi JWT.
+
+![stateless](assets/stateless.png)
+
+TL;DR:
+- Membagi beban antara server dan client supaya tidak terlalu berat di server saja
+- [`!`] Menambah kompleksitas kode
 
 ## JWT What Is
+JWT merupakan sebuah standar terbuka yang umum digunakan di aplikasi `zaman now` yang mendefinisikan suatu cara untuk mentransfer data secara compact antara tempat yang berbeda. 
+
+Data yang ditransfer ini (seharusnya) terpercaya dan ditandai secara digital.
+
+Struktur dari JWT ini umumnya terbagi menjadi 3 bagian besar:
+- Header
+- Payload
+- Signature
+
+umumnya dibentuk dengan format seperti berikut:
+```
+xxxxxx.yyyyyy.zzzzzzzzzzzzz
+```
+
+Header
+- Merupakan bagian kepala dari data yang ditransfer
+- isinya umumnya adalah tipe enkripsi yang digunakan
+- Dalam bentuk `Base64`
+
+
+Contoh:
+```json
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+```
+
+Payload
+- Merupakan *claims* 
+- *claims* adalah identitas user ditambahkan dengan data tambahan lainnya
+- Dalam bentuk `Base64`
+
+Contoh:
+```json
+{
+  "id": 123,
+  "nama": "Alice, Bukan Bob",
+  "adminBeneran": "Bukan"
+}
+```
+
+Signature
+- Merupakan bagian verifikasi token
+- Formatnya adalah sebagai berikut:
+```
+TIPE_ENKRIPSI(
+  base64DariHeader + "." + base64DariPayload,
+  kataKunci
+)
+```
+
+Contoh:
+
+Dengan tipe algo HS256 dan payload seperti di atas dan memiliki kata kunci `kata-kunci`, maka JWT yang dihasilkan adalah:
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJuYW1hIjoiQWxpY2UsIEJ1a2FuIEJvYiIsImFkbWluQmVuZXJhbiI6IkJ1a2FuIn0.fbVhfSybBP59jlOtvxAmlyTNGdxbfQoEUo94Z4a462s
+```
+
+Menakjubkan bukan?
+
+Mari sekarang kita coba untuk menggunakannya dalam kode yang akan didemokan !
 
 ## Let's Demo
+Pada bagian demo ini kita akan membuat sebuah aplikasi berbasis Express dan Sequelize.
+
+Sequelize ini berfungsi untuk membuat database dan ORM pada aplikasi
+
+Express digunakan untuk membuat Endpoint yang akan digunakan.
+
+Aplikasi ini memiliki 2 endpoint saja:
+- `POST /register`
+- `POST /login`
+
+(hanya ada POST saja, jadi ketika aplikasi berjalan, tidak dapat diakses langsung via browser !)
 
 ### Inisialisasi Project
 Pada tahap ini kita akan melakukan inisialisasi project
@@ -350,4 +434,8 @@ Kita belum menggunakan / mengkonsumsi JWT yang dibuat untuk transfer data / memp
 Pembelajaran selanjutnya dapat dilihat pada tautan berikut:
 - https://github.com/withered-flowers/education-express-jwt-authn-authz
 
+Selamat Belajar !
+
 ## Referensi
+- https://jwt.io/introduction
+- https://medium.com/@kennch/stateful-and-stateless-authentication-10aa3e3d4986
