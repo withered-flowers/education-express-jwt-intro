@@ -214,9 +214,131 @@ app.post("/register", async (req, res) => {
     res.status(code).json({ error: msg });
   }
 });
-
 ```
 
-### Menyelesaikan Endpoint POST /login
+Sampai pada tahap ini endpoint `POST /register` sudah selesai dibuat. 
 
-## Prerequisites
+Untuk bisa menjalankan aplikasi ini, kita tinggal menjalankan nodemon di terminal saja dengan mengetik `npx nodemon app.js`
+
+Untuk bisa mengetes apakah endpoint `POST /register` ini sudah bisa berjalan atau belum, bisa menggunakan aplikasi client yang ada seperti `Postman`, `Thunder Client` atau sejenisnya
+
+(Pada pembelajaran ini tidak diajarkan menggunakan Postman / Thunder Client / sejenisnya yah !) 
+
+PS (Sebagai Tambahan)
+- Pada kode di atas belum ada validasi yah, jadi bisa menambahkan logic validasi sendiri / menggunakan sequelize validation
+- Pada kode di atas belum menghandle sequelize error yang ada (`SequelizeValidationError` / `SequelizeUniqueConstraintError`)
+
+Selanjutnya kita akan menyelesaikan Endpoint `POST /login` dan menerapkan JWT di dalamnya.
+
+### Menyelesaikan Endpoint POST /login
+Pada endpoint `POST /login` ini sekarang kita akan menggunakan JsonWebToken (JWT)
+
+Sebelum bisa menggunakan JWT, kita harus menginstall package yang dibutuhkan untuk menggunakan JWT terlebih dahulu. package yang digunakan dalam pembelajaran ini adalah `jsonwebtoken`
+
+Langkah-langkah:
+1. Install package jsonwebtoken dengan `npm i jsonwebtoken`
+1. Membuat sebuah file helper untuk jwt dengan nama `helpers/jwt.js`
+1. Menambahkan kode pada `helpers/jwt.js`, yaitu fungsi untuk membuat token berdasarkan data (*payload*) yang ada, dan fungsi untuk membaca kembali *payload* berdasarkan token yang diberikan
+```js
+// File: helpers/jwt.js
+// module
+const jwt = require("jsonwebtoken");
+
+// secret adalah kata kunci yang SEHARUSNYA disimpan baik baik
+const SECRETKEY = "ini_sangat_tidak_aman_sekali";
+
+// fungsi untuk membuat token
+const createToken = (payload) => {
+  return jwt.sign(payload, SECRETKEY, {
+    // token akan hangus dalam 10 menit
+    expiresIn: "600s",
+  });
+};
+
+// fungsi untuk membaca payload
+const readPayload = (token) => {
+  return jwt.verify(token, SECRETKEY);
+};
+
+// export supaya dapat digunakan pada file lainnya
+module.exports = {
+  createToken,
+  readPayload,
+};
+
+/*
+  Perhatikan pada kode di atas secret key masih disimpan di dalam
+  file jwt.js ini, 
+
+  Ini SANGAT TIDAK AMAN, umumnya menggunakan
+  `Environment Variable` untuk menyimpan secret key ini
+*/
+``` 
+
+Selanjutnya kita akan menyelesaikan file `app.js` endpoint `POST /login`
+
+Langkah-langkah:
+1. Buka file `app.js`
+1. Modifikasi kode menjadi sebagai berikut
+```js
+...
+
+// Import fungsi createToken
+const { createToken } = require("./helpers/jwt.js");
+// Import fungsi compareHash
+const { compareHash } = require("./helpers/bcrypt.js");
+
+app.post("/login", async (req, res) => {
+  // res.status(200).json({ msg: "Not implemented yet" });
+
+  // Bungkus dalam try catch block untuk bisa handle error dari
+  // async await
+  try {
+    // Menerima name dan password dari client
+    const { name, password } = req.body;
+
+    // Check username dan password
+    const foundUser = await User.findOne({
+      where: {
+        name,
+      },
+    });
+
+    // bila user tidak ditemukan
+    if (!foundUser) {
+      throw new Error("INVALID_USERNAME_OR_PASSWORD");
+    }
+
+    if (!compareHash(password, foundUser.password)) {
+      throw new Error("INVALID_USERNAME_OR_PASSWORD");
+    }
+
+    // buat payload nya
+    // payload = data yang akan dimasukkan ke dalam token
+    const payload = {
+      // misalnya di sini kita hanya membuat token dari id saja
+      id: foundUser.id,
+    };
+
+    // buat tokennya
+    const token = createToken(payload);
+
+    // kembalikan responsenya
+    res.status(200).json({ access_token: token });
+  } catch (err) {
+    // Handle error di sini
+    let code = 500;
+    let msg = "Internal Server Error";
+
+    if (err.message === "INVALID_USERNAME_OR_PASSWORD") {
+      code = 400;
+      msg = "Invalid name / password";
+    }
+
+    // Kembalikan status code dan pesan error
+    res.status(code).json({ error: msg });
+  }
+});
+```
+
+## Referensi
