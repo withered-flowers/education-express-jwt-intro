@@ -9,6 +9,7 @@
 - Sudah memasang nodejs
 - Mengerti penggunaan Express
 - Mengerti penggunaan REST API
+- Mengerti penggunaan Sequelize ORM
 
 ## Intro
 Pada aplikasi monolitik, seluruh client dan server ada di tempat yang sama, sehingga untuk melakukan login, memeriksa apakah data ada atau tidak, endpointnya boleh dibuka oleh siapa saja, itu semuanya ada di server, dan berbasis stateful, dengan proteksi yang bernama `session`.
