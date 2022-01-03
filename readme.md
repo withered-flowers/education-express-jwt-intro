@@ -142,6 +142,7 @@ Pada bagian ini kita akan mulai membuat aplikasi dengan menyediakan 2 endpoint y
 Langkah-langkah:
 1. Membuat sebuah file dengan nama `app.js`
 1. Menuliskan kode untuk `app.js` yang berbasis *express* sebagai berikut:
+
 ```js
 // File: app.js
 // module
@@ -181,6 +182,7 @@ Langkah-langkah:
 1. Membuat folder `helpers`
 1. Membuat file `helpers/bcrypt.js`
 1. Menambahkan kode pada `helpers/bcrypt.js`, yaitu fungsi untuk membuat `hash` dan memeriksa `hash`
+
 ```js
 // File: helpers/bcrypt.js
 // module
@@ -208,6 +210,7 @@ Selanjutnya kita akan membuat sequelize `hooks` supaya dapat melakukan auto hash
 Langkah-langkah:
 1. Membuka file `models/user.js`
 1. Memodifikasi kode pada file `models/user.js` sebagai berikut
+
 ```js
 // File: models/user.js
 "use strict";
@@ -249,6 +252,7 @@ Selanjutnya kita akan memodifikasi file `app.js` dan menyelesaikan endpoint `POS
 Langkah-langkah:
 1. Buka file `app.js`
 1. Memodifikasi kode pada file `app.js`, pada endpoint `POST /register`:
+
 ```js
 // File: app.js
 ...
@@ -324,6 +328,7 @@ Langkah-langkah:
 1. Install package jsonwebtoken dengan `npm i jsonwebtoken`
 1. Membuat sebuah file helper untuk jwt dengan nama `helpers/jwt.js`
 1. Menambahkan kode pada `helpers/jwt.js`, yaitu fungsi untuk membuat token berdasarkan data (*payload*) yang ada, dan fungsi untuk membaca kembali *payload* berdasarkan token yang diberikan
+
 ```js
 // File: helpers/jwt.js
 // module
@@ -365,6 +370,7 @@ Selanjutnya kita akan menyelesaikan file `app.js` endpoint `POST /login`
 Langkah-langkah:
 1. Buka file `app.js`
 1. Modifikasi kode menjadi sebagai berikut
+
 ```js
 ...
 
