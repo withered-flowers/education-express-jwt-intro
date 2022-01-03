@@ -1,1 +1,11 @@
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: true
+include:
+  - readme.md
 theme: jekyll-theme-cayman
+title: Express - Intro to JWT
+baseurl: "education-express-jwt-intro"
+url: ""
