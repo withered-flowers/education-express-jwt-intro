@@ -1,0 +1,16 @@
+@host=http://localhost:3000
+
+###
+
+GET {{host}}/smartphones HTTP/1.1
+
+###
+
+GET {{host}}/smartphones/1 HTTP/1.1
+
+###
+
+POST {{host}}/smartphones HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+name=Siomay Bluemay Note 11 Pro 5G&price=4100000&qty=100&UserId=5
