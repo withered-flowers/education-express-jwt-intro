@@ -1,8 +1,9 @@
+// biome-ignore lint/suspicious/noRedundantUseStrict: <explanation>
 "use strict";
 const { Model } = require("sequelize");
-const { hashPassword } = require("../helpers/bcrypt");
 module.exports = (sequelize, DataTypes) => {
-	class User extends Model {
+	// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
+	class Smartphone extends Model {
 		/**
 		 * Helper method for defining associations.
 		 * This method is not a part of Sequelize lifecycle.
@@ -12,20 +13,17 @@ module.exports = (sequelize, DataTypes) => {
 			// define association here
 		}
 	}
-	User.init(
+	Smartphone.init(
 		{
 			name: DataTypes.STRING,
-			password: DataTypes.STRING,
+			price: DataTypes.INTEGER,
+			qty: DataTypes.INTEGER,
+			UserId: DataTypes.INTEGER,
 		},
 		{
 			sequelize,
-			modelName: "User",
+			modelName: "Smartphone",
 		},
 	);
-	// Menambahkan hook beforeCreate di sini
-	User.beforeCreate((instanceUser, options) => {
-		// mengganti password dengan yang sudah dihash
-		instanceUser.password = hashPassword(instanceUser.password);
-	});
-	return User;
+	return Smartphone;
 };

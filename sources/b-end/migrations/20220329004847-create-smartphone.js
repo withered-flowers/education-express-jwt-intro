@@ -1,8 +1,8 @@
 // biome-ignore lint/suspicious/noRedundantUseStrict: <explanation>
 "use strict";
 module.exports = {
-	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable("Users", {
+	async up(queryInterface, Sequelize) {
+		await queryInterface.createTable("Smartphones", {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -12,8 +12,14 @@ module.exports = {
 			name: {
 				type: Sequelize.STRING,
 			},
-			password: {
-				type: Sequelize.STRING,
+			price: {
+				type: Sequelize.INTEGER,
+			},
+			qty: {
+				type: Sequelize.INTEGER,
+			},
+			UserId: {
+				type: Sequelize.INTEGER,
 			},
 			createdAt: {
 				allowNull: false,
@@ -25,7 +31,7 @@ module.exports = {
 			},
 		});
 	},
-	down: async (queryInterface, Sequelize) => {
-		await queryInterface.dropTable("Users");
+	async down(queryInterface, Sequelize) {
+		await queryInterface.dropTable("Smartphones");
 	},
 };

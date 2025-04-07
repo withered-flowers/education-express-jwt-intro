@@ -1,5 +1,5 @@
 // module
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 // fungsi untuk membuat hash
 const hashPassword = (password) => {

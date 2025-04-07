@@ -14,3 +14,49 @@ POST {{host}}/smartphones HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
 name=Siomay Bluemay Note 11 Pro 5G&price=4100000&qty=100&UserId=5
+
+###
+
+POST {{host}}/smartphones HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Siomay Bluemay Note 14 Pro 5G",
+  "price": 5100000,
+  "qty": 50,
+  "UserId": 5
+}
+
+###
+
+POST {{host}}/register HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+name=johndoe&password=123456
+
+###
+
+POST {{host}}/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "johndoe2",
+  "password": "123456"
+}
+
+###
+
+POST {{host}}/login HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+name=johndoe&password=123456
+
+###
+
+POST {{host}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "johndoe2",
+  "password": "123456"
+}
